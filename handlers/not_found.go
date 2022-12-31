@@ -9,7 +9,7 @@ import (
 
 func NotFound(c *gin.Context) {
 
-	if strings.HasPrefix(c.Request.URL.Path, "/api") {
+	if strings.HasPrefix(c.Request.URL.Path, "/api/") {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "api not found",
 		})
