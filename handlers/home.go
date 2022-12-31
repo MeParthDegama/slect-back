@@ -8,6 +8,6 @@ import (
 
 func Home(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "slect web media interface api",
+		"message": "slect web media",
 	})
 }

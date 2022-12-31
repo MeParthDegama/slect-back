@@ -13,7 +13,11 @@ func SetRoutes(g *gin.Engine) {
 	
 	// api router
 	api := g.Group("/api")
-	api.Any("/", handlers.Auth)
+	api.Any("/", handlers.Api)
+
+	// auth router
+	auth := api.Group("/auth")
+	auth.Any("/", handlers.Auth)
 
 	g.NoRoute(handlers.NotFound)
 }
