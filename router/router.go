@@ -7,6 +7,9 @@ import (
 
 func SetRoutes(g *gin.Engine) {
 
+	// set middlewares
+	g.Use(handlers.Cors)
+
 	// home router
 	home := g.Group("/")
 	home.Any("/", handlers.Home)
