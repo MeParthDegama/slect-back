@@ -6,26 +6,24 @@ extern int checkSystemPassword(char *user, char *pass);
 */
 import "C"
 import (
-	"fmt"
-	"os"
+	"os/user"
 )
 
-func CheckSystemPassword(name string, pass string) {
+func CheckSystemPassword(name string, pass string) bool {
 
-	_, err := os.Stat("/home/" + name)
+	user, err := user.Lookup(name)
 	if err != nil {
-		fmt.Println("user not found")
-		return
+		return false
 	}
 
-	username := C.CString(name)
+	username := C.CString(user.Username)
 	password := C.CString(pass)
 	result := C.checkSystemPassword(username, password)
 
 	if result == 1 {
-		fmt.Println("loginsuccess")
+		return true
 	} else {
-		fmt.Println("loginerror")
+		return false
 	}
 
 }

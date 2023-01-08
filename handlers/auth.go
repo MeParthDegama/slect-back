@@ -18,6 +18,7 @@ func Auth(c *gin.Context) {
 
 	if c.Request.Header.Get("Content-Type") != "application/json" {
 		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  false,
 			"message": "only accept json body",
 		})
 		return
@@ -26,6 +27,7 @@ func Auth(c *gin.Context) {
 	err := c.BindJSON(&info)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  false,
 			"message": "invalid request",
 		})
 		return
@@ -33,14 +35,27 @@ func Auth(c *gin.Context) {
 
 	if info.Password == "" || info.Username == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  false,
 			"message": "invalid request field",
 		})
 		return
 	}
 
-	utils.CheckSystemPassword(info.Username, info.Password)
+	loginSucc := utils.CheckSystemPassword(info.Username, info.Password)
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "auth api",
-	})
+	var res map[string]any
+
+	if loginSucc {
+		res = gin.H{
+			"status":  true,
+			"message": "login successful",
+		}
+	} else {
+		res = gin.H{
+			"status":  false,
+			"message": "login error",
+		}
+	}
+
+	c.JSON(http.StatusOK, res)
 }
