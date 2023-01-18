@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/parthkax70/slect/config"
 	"github.com/parthkax70/slect/utils"
 )
 
@@ -17,7 +18,7 @@ func Auth(c *gin.Context) {
 	var info LoginInfo
 
 	if c.Request.Header.Get("Content-Type") != "application/json" {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
 			"message": "only accept json body",
 		})
@@ -26,17 +27,17 @@ func Auth(c *gin.Context) {
 
 	err := c.BindJSON(&info)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
-			"message": "invalid request",
+			"message": "Invalid request",
 		})
 		return
 	}
 
 	if info.Password == "" || info.Username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
-			"message": "invalid request field",
+			"message": "Invalid request field",
 		})
 		return
 	}
@@ -46,14 +47,20 @@ func Auth(c *gin.Context) {
 	var res map[string]any
 
 	if loginSucc {
+		
+		token := utils.GenToken()
+		
+		config.AddToken(token, info.Username)
+
 		res = gin.H{
 			"status":  true,
 			"message": "login successful",
+			"token": token,
 		}
 	} else {
 		res = gin.H{
 			"status":  false,
-			"message": "login error",
+			"message": "Invalid username or password",
 		}
 	}
 
