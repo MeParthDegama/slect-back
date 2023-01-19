@@ -1,16 +1,1 @@
-{
-    "tokens": [
-        {
-            "token": "07e226eb-df2c-4dc7-a81f-b458ddfcba6e",
-            "username": "pthreeh"
-        },
-        {
-            "token": "51abeaad-9ba4-47f4-98c7-cb0d78f2a742",
-            "username": "pthreeh"
-        },
-        {
-            "token": "2142a484-6e70-4ab2-ad85-abf7d25c9ad2",
-            "username": "pthreeh"
-        }
-    ]
-}
+{"tokens":[{"token":"9b5d2587-69e3-4322-bdb2-bbb931c40db2","username":"pthreeh"},{"token":"12c0b960-3eb2-49f2-8536-ee79c16fffb3","username":"pthreeh"},{"token":"19f39915-643a-42f0-85d8-04c19d6d769f","username":"pthreeh"}]}

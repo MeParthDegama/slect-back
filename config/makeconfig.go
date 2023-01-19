@@ -32,9 +32,9 @@ func MakeConfigFile() {
 
 }
 
-func WriteConfig(conf *Config) {
+func WriteConfig() {
 
-	confFileByte, err := json.Marshal(conf)
+	confFileByte, err := json.Marshal(appConfig)
 	if err != nil {
 		// if error
 		panic(err)
