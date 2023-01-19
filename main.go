@@ -11,6 +11,7 @@ import (
 func main() {
 
 	config.MakeConfigFile()
+	config.LoadConfig()
 
 	r := gin.New()
 

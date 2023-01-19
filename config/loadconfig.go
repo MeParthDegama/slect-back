@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var appConfig Config
+var AppConfig Config
 
 func LoadConfig() {
 	
@@ -19,6 +19,6 @@ func LoadConfig() {
 		}
 	}
 
-	json.Unmarshal(fbyte, &appConfig)
+	json.Unmarshal(fbyte, &AppConfig)
 
 }
