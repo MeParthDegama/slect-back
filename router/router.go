@@ -13,7 +13,7 @@ func SetRoutes(g *gin.Engine) {
 	// home router
 	home := g.Group("/")
 	home.Any("/", handlers.Home)
-	
+
 	// api router
 	api := g.Group("/api")
 	api.Any("/", handlers.Api)
@@ -21,6 +21,10 @@ func SetRoutes(g *gin.Engine) {
 	// auth router
 	auth := api.Group("/auth")
 	auth.POST("/", handlers.Auth)
+
+	// auth router
+	profile := api.Group("/profile")
+	profile.POST("/", handlers.Auth)
 
 	g.NoRoute(handlers.NotFound)
 }
