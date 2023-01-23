@@ -36,8 +36,6 @@ func Profile(c *gin.Context) {
 
 	fullname := utils.FullName(username)
 
-	fmt.Println(username)
-
 	c.JSON(http.StatusOK, gin.H{
 		"status":   true,
 		"username": username,
