@@ -1,7 +1,8 @@
 package config
 
 type Config struct {
-	Tokens []Token `json:"tokens"`
+	Tokens    []Token    `json:"tokens"`
+	FullNames []FullName `json:"fullnames"`
 }
 
 type Token struct {
@@ -9,3 +10,7 @@ type Token struct {
 	Username string `json:"username"`
 }
 
+type FullName struct {
+	Username string `json:"username"`
+	FullName string `json:"fullname"`
+}
