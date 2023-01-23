@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/parthkax70/slect/config"
 	"github.com/parthkax70/slect/utils"
 )
 
@@ -38,8 +37,6 @@ func Profile(c *gin.Context) {
 	fullname := utils.FullName(username)
 
 	fmt.Println(username)
-
-	fmt.Println(config.AppConfig) // tmp
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":   true,
