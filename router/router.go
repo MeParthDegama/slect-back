@@ -27,5 +27,9 @@ func SetRoutes(g *gin.Engine) {
 	profile.POST("/", handlers.Profile)
 	profile.POST("/fullname", handlers.SetFullName)
 
+	// auth router
+	files := api.Group("/files")
+	files.Any("/", handlers.FilesViewWebSocket)
+
 	g.NoRoute(handlers.NotFound)
 }
