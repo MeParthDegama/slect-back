@@ -12,7 +12,7 @@ var wsupgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func FilesViewWebSocket(c *gin.Context) {
+func AppConnection(c *gin.Context) {
 
 	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {

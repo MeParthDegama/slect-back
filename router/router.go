@@ -29,7 +29,7 @@ func SetRoutes(g *gin.Engine) {
 
 	// auth router
 	files := api.Group("/files")
-	files.Any("/", handlers.FilesViewWebSocket)
+	files.Any("/", handlers.AppConnection)
 
 	g.NoRoute(handlers.NotFound)
 }
