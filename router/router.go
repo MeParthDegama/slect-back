@@ -28,8 +28,8 @@ func SetRoutes(g *gin.Engine) {
 	profile.POST("/fullname", handlers.SetFullName)
 
 	// auth router
-	files := api.Group("/getway")
-	files.Any("/", handlers.AppConnection)
+	files := api.Group("/files")
+	files.Any("/", handlers.FilesList)
 
 	g.NoRoute(handlers.NotFound)
 }
