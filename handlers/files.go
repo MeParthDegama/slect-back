@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"io/ioutil"
 	"net/http"
+	"os/user"
 
 	"github.com/gin-gonic/gin"
 	"github.com/parthkax70/slect/utils"
@@ -9,6 +11,12 @@ import (
 
 type FilesListRequest struct {
 	Token string `json:"token"`
+	Path  string `json:"path"`
+}
+
+type FilesInfo struct {
+	Name  string `json:"name"`
+	IsDir bool   `json:"isdir"`
 }
 
 func FilesList(c *gin.Context) {
@@ -24,7 +32,7 @@ func FilesList(c *gin.Context) {
 		return
 	}
 
-	_, err = utils.AuthToken(req.Token)
+	username, err := utils.AuthToken(req.Token)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
@@ -33,9 +41,37 @@ func FilesList(c *gin.Context) {
 		return
 	}
 
+	user, err := user.Lookup(username)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": "login error",
+		})
+		return
+	}
+
+	reqDir := user.HomeDir + req.Path
+
+	files, err := ioutil.ReadDir(reqDir)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": "dir not found",
+		})
+		return
+	}
+
+	filesListInfo := []FilesInfo{}
+
+	for _, file := range files {
+		
+		filesListInfo = append(filesListInfo, FilesInfo{Name: file.Name(), IsDir: file.IsDir()})
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"status": true,
+		"status":  true,
 		"message": "success",
+		"filelist": filesListInfo,
 	})
 
 }
