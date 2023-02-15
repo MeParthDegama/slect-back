@@ -17,6 +17,7 @@ type FilesListRequest struct {
 type FilesInfo struct {
 	Name  string `json:"name"`
 	IsDir bool   `json:"isdir"`
+	Size  int64  `json:"size"`
 }
 
 func FilesList(c *gin.Context) {
@@ -64,13 +65,12 @@ func FilesList(c *gin.Context) {
 	filesListInfo := []FilesInfo{}
 
 	for _, file := range files {
-		
-		filesListInfo = append(filesListInfo, FilesInfo{Name: file.Name(), IsDir: file.IsDir()})
+		filesListInfo = append(filesListInfo, FilesInfo{Name: file.Name(), IsDir: file.IsDir(), Size: file.Size()})
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status":  true,
-		"message": "success",
+		"status":   true,
+		"message":  "success",
 		"filelist": filesListInfo,
 	})
 
