@@ -30,6 +30,7 @@ func SetRoutes(g *gin.Engine) {
 	// auth router
 	files := api.Group("/files")
 	files.Any("/", handlers.FilesList)
+	files.POST("/upload", handlers.UploadFile)
 
 	g.NoRoute(handlers.NotFound)
 }
