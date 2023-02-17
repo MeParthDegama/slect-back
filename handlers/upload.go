@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"fmt"
-	_ "fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
