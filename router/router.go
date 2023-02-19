@@ -31,6 +31,7 @@ func SetRoutes(g *gin.Engine) {
 	files := api.Group("/files")
 	files.Any("/", handlers.FilesList)
 	files.POST("/upload", handlers.UploadFile)
+	files.POST("/newdir", handlers.NewDir)
 
 	g.NoRoute(handlers.NotFound)
 }

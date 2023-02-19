@@ -12,10 +12,6 @@ import (
 	"github.com/parthkax70/slect/utils"
 )
 
-type UploadFileRequest struct {
-	Token string `json:"token"`
-}
-
 func UploadFile(c *gin.Context) {
 
 	token := c.Request.FormValue("token")
