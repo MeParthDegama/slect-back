@@ -32,6 +32,7 @@ func SetRoutes(g *gin.Engine) {
 	files.Any("/", handlers.FilesList)
 	files.POST("/upload", handlers.UploadFile)
 	files.POST("/newdir", handlers.NewDir)
+	files.POST("/rename", handlers.RenameFile)
 
 	g.NoRoute(handlers.NotFound)
 }
