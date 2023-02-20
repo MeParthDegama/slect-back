@@ -9,15 +9,14 @@ import (
 	"github.com/parthkax70/slect/utils"
 )
 
-type RenameFileRequest struct {
-	Token       string `json:"token"`
-	OldFileName string `json:"old_file_name"`
-	NewFileName string `json:"new_file_name"`
-	BasePath    string `json:"base_path"`
+type DeleteFileRequest struct {
+	Token    string `json:"token"`
+	FileName string `json:"file_name"`
+	BasePath string `json:"base_path"`
 }
 
-func RenameFile(c *gin.Context) {
-	var req RenameFileRequest
+func DeleteFile(c *gin.Context) {
+	var req DeleteFileRequest
 
 	err := c.BindJSON(&req)
 	if err != nil {
@@ -46,9 +45,14 @@ func RenameFile(c *gin.Context) {
 		return
 	}
 
-	basePath := user.HomeDir + req.BasePath
+	_, err = os.Stat(user.HomeDir + "/.delete/")
+	if err != nil {
+		if os.IsNotExist(err) {
+			os.Mkdir(user.HomeDir+"/.delete/", os.ModePerm)
+		}
+	}
 
-	err = os.Rename(basePath+"/"+req.OldFileName, basePath+"/"+req.NewFileName)
+	err = os.Rename(user.HomeDir+req.BasePath+"/"+req.FileName, user.HomeDir+"/.delete/"+req.FileName)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  false,
