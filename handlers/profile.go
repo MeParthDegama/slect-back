@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os/user"
 
 	"github.com/gin-gonic/gin"
 	"github.com/parthkax70/slect/utils"
@@ -33,12 +34,19 @@ func Profile(c *gin.Context) {
 		return
 	}
 
-	fullname := utils.FullName(username)
+	me, err := user.Lookup(username)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": "login error",
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":   true,
 		"username": username,
-		"fullname": fullname,
+		"fullname": me.Name,
 		"message":  "slect web media",
 	})
 }
