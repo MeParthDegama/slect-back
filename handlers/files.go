@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os/user"
@@ -15,9 +16,10 @@ type FilesListRequest struct {
 }
 
 type FilesInfo struct {
-	Name  string `json:"name"`
-	IsDir bool   `json:"isdir"`
-	Size  int64  `json:"size"`
+	Name    string `json:"name"`
+	IsDir   bool   `json:"isdir"`
+	Size    int64  `json:"size"`
+	ModTime string `json:"mod_time"`
 }
 
 func FilesList(c *gin.Context) {
@@ -65,7 +67,13 @@ func FilesList(c *gin.Context) {
 	filesListInfo := []FilesInfo{}
 
 	for _, file := range files {
-		filesListInfo = append(filesListInfo, FilesInfo{Name: file.Name(), IsDir: file.IsDir(), Size: file.Size()})
+		modTime := file.ModTime()
+		filesListInfo = append(filesListInfo, FilesInfo{
+			Name:    file.Name(),
+			IsDir:   file.IsDir(),
+			Size:    file.Size(),
+			ModTime: fmt.Sprintf("%v %d, %d %d:%d", modTime.Month().String(), modTime.Day(), modTime.Year(), modTime.Minute(), modTime.Hour()),
+		})
 	}
 
 	c.JSON(http.StatusOK, gin.H{
