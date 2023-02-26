@@ -10,9 +10,10 @@ import (
 )
 
 type DeleteFileRequest struct {
-	Token    string `json:"token"`
-	FileName string `json:"file_name"`
-	BasePath string `json:"base_path"`
+	Token     string `json:"token"`
+	FileName  string `json:"file_name"`
+	BasePath  string `json:"base_path"`
+	Permanent bool   `json:"permanent"`
 }
 
 func DeleteFile(c *gin.Context) {
@@ -52,15 +53,25 @@ func DeleteFile(c *gin.Context) {
 		}
 	}
 
-	err = os.Rename(user.HomeDir+req.BasePath+"/"+req.FileName, user.HomeDir+"/.delete/"+req.FileName)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"status":  false,
-			"message": "internal server error",
-		})
-		return
+	if req.Permanent {
+		err = os.RemoveAll(user.HomeDir + req.BasePath + "/" + req.FileName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"status":  false,
+				"message": "internal server error",
+			})
+			return
+		}
+	} else {
+		err = os.Rename(user.HomeDir+req.BasePath+"/"+req.FileName, user.HomeDir+"/.delete/"+req.FileName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"status":  false,
+				"message": "internal server error",
+			})
+			return
+		}
 	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"status":  true,
 		"message": "rename folder successful",
