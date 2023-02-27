@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/parthkax70/slect/handlers"
+	"golang.org/x/net/websocket"
 )
 
 func SetRoutes(g *gin.Engine) {
@@ -35,6 +36,11 @@ func SetRoutes(g *gin.Engine) {
 	files.POST("/rename", handlers.RenameFile)
 	files.POST("/copy", handlers.Copy)
 	files.POST("/delete", handlers.DeleteFile)
+
+	api.GET("/webterm", func(ctx *gin.Context) {
+		hand := websocket.Handler(handlers.WebTerm)
+		hand.ServeHTTP(ctx.Writer, ctx.Request)
+	})
 
 	g.NoRoute(handlers.NotFound)
 }
