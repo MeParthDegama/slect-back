@@ -42,5 +42,10 @@ func SetRoutes(g *gin.Engine) {
 		hand.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 
+	api.GET("/proc", func(ctx *gin.Context) {
+		hand := websocket.Handler(handlers.ProcMoni)
+		hand.ServeHTTP(ctx.Writer, ctx.Request)
+	})
+
 	g.NoRoute(handlers.NotFound)
 }
