@@ -37,6 +37,8 @@ func SetRoutes(g *gin.Engine) {
 	files.POST("/copy", handlers.Copy)
 	files.POST("/delete", handlers.DeleteFile)
 
+	files.Any("/view", handlers.ViewFile)
+
 	api.GET("/webterm", func(ctx *gin.Context) {
 		hand := websocket.Handler(handlers.WebTerm)
 		hand.ServeHTTP(ctx.Writer, ctx.Request)
