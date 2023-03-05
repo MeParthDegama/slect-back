@@ -38,5 +38,12 @@ func ViewFile(c *gin.Context) {
 		return
 	}
 
+	if c.Request.URL.Query().Get("download") == "true" {
+		c.Header("Content-Type", "application/force-download")
+		c.Header("Content-Disposition", "attachment; filename=\""+file.Name()+"\"")
+		c.Header("Cache-Control", "private")
+		c.Header("Pragma", "private")
+	}
+
 	c.File(user.HomeDir + "/" + fileName)
 }
